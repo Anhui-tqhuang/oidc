@@ -50,7 +50,7 @@ Then, client app:
 
 Step 3 and step 4 are parts of oauth2 and oidc package, we could use existing ones for each program language.
 
-User once gets an id token, he/she could use it call the api belonged to client-app, client-app would consume [claims](https://auth0.com/docs/scopes/openid-connect-scopes) (which are name/value pairs that contain information about a user) to verify the identify of the user.
+User once gets an id token, he/she could use it to call the api belonged to client-app, client-app would consume [claims](https://auth0.com/docs/scopes/openid-connect-scopes) (which are name/value pairs that contain information about a user) to verify the identify of the user.
 
 for example:
 ```json
