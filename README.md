@@ -55,11 +55,11 @@ User once gets an id token, he/she could use it call the api belonged to client-
 for example:
 ```json
 {
-  "iss": "http://127.0.0.1:5556/dex", //idp issuer url
+  "iss": "http://127.0.0.1:5556/dex",
   "sub": "CiQxZDkyYzA3Ni1jYjQ4LTQ4ZjEtYTk5Ni03YzhkMGJkZmE4NjMSBWxvY2Fs",
   "aud": "example-app",
-  "exp": 1615453229, // token will expire at
-  "iat": 1615366829, // token was issued at
+  "exp": 1615453229,
+  "iat": 1615366829,
   "at_hash": "hWaeSk3_aWCdJ8XJ_wAlPg",
   "c_hash": "LjuZ4Tw49jVcr1dGqQ5vqw",
   "email": "tianqiuhuang@gmail.com",
