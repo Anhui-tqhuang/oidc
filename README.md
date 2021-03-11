@@ -44,11 +44,13 @@ http://127.0.0.1:5555/callback?code=ewwj54h3zgiwaikpyolcv7nwc&state=I+wish+to+wa
 Then, client app:
 1. extract the state and verify the state
 2. extract the code
-3. use the code to exchange the token
+3. use the code to exchange the token which contains access_token, refresh_token and id_token.
 4. extract and verify the id token from the token
 5. return id token to the user
 
-Step 3 and step 4 are parts of oauth2 and oidc package, we could use existing ones for each program language.
+Access token could be used to call `/userinfo` endpoint to fetch users' info, refresh_token could be used to refresh the token.
+
+Step 3 and step 4 are parts of oauth2 and oidc package, we could use existing ones for each program language. if you want to implement them by yourself, plz refer to the oauth2 framework [RFC 6749](https://www.rfc-editor.org/rfc/rfc6749.html).
 
 User once gets an id token, he/she could use it to call the api belonged to client-app, client-app would consume [claims](https://auth0.com/docs/scopes/openid-connect-scopes) (which are name/value pairs that contain information about a user) to verify the identify of the user.
 
@@ -68,8 +70,40 @@ for example:
 }
 ```
 
+### Authorization Code Flow with Proof Key for Code Exchange (PKCE)
+
+When public clients (e.g., native and single-page applications) request Access Tokens, some additional security concerns are posed that are not mitigated by the Authorization Code Flow alone. This is because:
+
+**native app:**
+- Cannot securely store a Client Secret. Decompiling the app will reveal the Client Secret, which is bound to the app and is the same for all users and devices.
+- May make use of a custom URL scheme to capture redirects (e.g., MyApp://) potentially allowing malicious applications to receive an Authorization Code from your Authorization Server.
+
+**Single-page apps:**
+- Cannot securely store a Client Secret because their entire source is available to the browser.
+
+Given these situations, OAuth 2.0 provides a version of the Authorization Code Flow which makes use of a Proof Key for Code Exchange (PKCE) (defined in OAuth 2.0 RFC 7636).
+
+The PKCE-enhanced Authorization Code Flow introduces a secret created by the calling application that can be verified by the authorization server; this secret is called the Code Verifier. Additionally, the calling app creates a transform value of the Code Verifier called the Code Challenge and sends this value over HTTPS to retrieve an Authorization Code. This way, a malicious attacker can only intercept the Authorization Code, and they cannot exchange it for a token without the Code Verifier.
+
+for more details, plz refer to: https://auth0.com/docs/flows/authorization-code-flow-with-proof-key-for-code-exchange-pkce
+
+### Implicit Flow
+
+Not only `Authorization Code Flow with Proof Key for Code Exchange (PKCE)`, but also `implicit flow` could be used for the SPA, but we'd better only use the latter one when the SPA doesn't need an Access Token.
+
+We should use this flow for login-only use cases.
+
+![implicit flow](./images/implicit.png)
+
+### Client Credential Grant
+
+With machine-to-machine (M2M) applications, such as CLIs, daemons, or services running on your back-end, the system authenticates and authorizes the app rather than a user. For this scenario, typical authentication schemes like username + password or social logins don't make sense. Instead, M2M apps use the Client Credentials Flow (defined in [OAuth 2.0 RFC 6749, section 4.4](https://tools.ietf.org/html/rfc6749#section-4.4)), in which they pass along their Client ID and Client Secret to authenticate themselves and get a token.
+
+### Resource Owner Password Grant
+we might use this flow when we trust the client app very much, we just send credentials like username/password to client-app. Because credentials are sent to the backend and can be stored for future use before being exchanged for an Access Token, it is imperative that the application is absolutely trusted with this information.
+
 ## WorkShop
 
-setup your own IdP and write a client-app.
+setup your own IdP and write a client-app to implement the `Authentication Flow`.
 
 Refer to [setup](./setup-idp-and-client-app.md).

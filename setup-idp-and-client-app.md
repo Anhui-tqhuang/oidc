@@ -69,6 +69,6 @@ $ go run main.go --username=<username> \
     --address=<dex-server-address>
 ```
 
-5. write a client app, the [reference](https://dexidp.io/docs/using-dex/).
+5. write a client app, the [reference](https://dexidp.io/docs/using-dex/), note that we only use `id token` in this app and could ignore the`access_token` and `refresh_token`.
 
 6. test your client app.
