@@ -30,7 +30,7 @@ for example:
 http://127.0.0.1:5556/dex/auth?client_id=example-app&redirect_uri=http%3A%2F%2F127.0.0.1%3A5555%2Fcallback&response_type=code&scope=openid+profile+email&state=I+wish+to+wash+my+irish+wristwatch
 ```
 
-**for details of state, plz refer to: https://tools.ietf.org/html/rfc6819#section-3.6**
+for details of state, plz refer to: https://tools.ietf.org/html/rfc6819#section-3.6 and [CSRF.md](./CSRF.md)
 
 After IdP verifies the user's identity, it redirects the user back to the client app with a code that can be exchanged for an ID token.
 
